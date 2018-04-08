@@ -84,7 +84,6 @@ h1 {
 .deck .card.unmatch {
     cursor: default;
     background: #cc1002;
-    font-size: 33px;
 }
 
 /*
