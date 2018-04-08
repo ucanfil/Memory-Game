@@ -1,7 +1,68 @@
 /*
  * Create a list that holds all of your cards
  */
+const cardsArray = [
+  'fa-diamond',
+  'fa-diamond',
+  'fa-bolt',
+  'fa-bolt',
+  'fa-paper-plane-o',
+  'fa-paper-plane-o',
+  'fa-anchor',
+  'fa-anchor',
+  'fa-cube',
+  'fa-cube',
+  'fa-leaf',
+  'fa-leaf',
+  'fa-bicycle',
+  'fa-bicycle',
+  'fa-bomb',
+  'fa-bomb',
+];
 
+// Shuffling cardsArray with the function has given
+shuffle(cardsArray);
+
+// Assigning shuffled cardsArray to its HTML
+const cardsContainer = document.getElementsByClassName("card");
+
+for (let i = 0; i < cardsContainer.length; i++) {
+  cardsContainer[i].children[0].classList.add(cardsArray[i]);
+}
+
+// Setting up cardsContainer eventListener
+let openCards = [];
+let matchedCards = [];
+
+for (let i = 0; i < cardsContainer.length; i++) {
+  cardsContainer[i].addEventListener("click", function() {
+    this.classList.add("open", "show");
+    openCards.push(this);
+    setTimeout(isMatched, 1000);
+  });
+}
+
+// is cards in the openCards array matched?
+
+function isMatched() {
+  if (openCards.length > 1) {
+    if (openCards[0].children[0].classList[1] !== openCards[1].children[0].classList[1]) {
+      openCards[0].classList.remove("open", "show");
+      openCards[1].classList.remove("open", "show");
+      openCards = [];
+    } else {
+      matchedCards.push(openCards);
+      openCards = [];
+      gameOver();
+    }
+  }
+}
+
+//  if all cards matched run gameOver function into isMatched function
+
+function gameOver() {
+  return matchedCards.length === 8 ? console.log("Game Over") : "";
+}
 
 /*
  * Display the cards on the page
@@ -12,7 +73,7 @@
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
