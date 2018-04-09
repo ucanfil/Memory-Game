@@ -40,7 +40,6 @@ function eventListenerFunction(event) {
   if (openCardsArray.length < 2 && event.target.nodeName === "LI") {
     openCard(event);
     pushToOpenCardsArray(event);
-    console.log(openCardsArray);
     isMatched();
   }
 }
@@ -124,3 +123,17 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
+ // Restart function
+function restart() {
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].classList.remove("open", "show", "match");
+  }
+  // countUp timer function will get in here !!!
+  shuffle(cardsArray);
+}
+
+// Selecting restart icon and adding a click event that runs restart function
+let restartButton = document.querySelector(".restart");
+restartButton.addEventListener("click", restart);
