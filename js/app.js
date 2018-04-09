@@ -1,6 +1,4 @@
-/*
- * Create a list that holds all of your cards
- */
+// List created holding all cards
 const cardsArray = [
   'fa-diamond',
   'fa-diamond',
@@ -24,44 +22,73 @@ const cardsArray = [
 shuffle(cardsArray);
 
 // Assigning shuffled cardsArray to its HTML
-const cardsContainer = document.getElementsByClassName("card");
+const deck = document.getElementsByClassName("deck");
+const cards = deck[0].children;
 
-for (let i = 0; i < cardsContainer.length; i++) {
-  cardsContainer[i].children[0].classList.add(cardsArray[i]);
+for (let i = 0; i < cards.length; i++) {
+  cards[i].children[0].classList.add(cardsArray[i]);
 }
 
-// Setting up cardsContainer eventListener
-let openCards = [];
-let matchedCards = [];
+// Setting up decks' eventListener
+let openCardsArray = [];
+let matchedCardsArray = [];
 
-for (let i = 0; i < cardsContainer.length; i++) {
-  cardsContainer[i].addEventListener("click", function() {
-    this.classList.add("open", "show");
-    openCards.push(this);
-    setTimeout(isMatched, 1000);
-  });
+deck[0].addEventListener("click", eventListenerFunction);
+
+// all functions that we'd like to run if click events occurs
+function eventListenerFunction(event) {
+  if (openCardsArray.length < 2 && event.target.nodeName === "LI") {
+    openCard(event);
+    pushToOpenCardsArray(event);
+    console.log(openCardsArray);
+    isMatched();
+  }
 }
+
+// function displays cards symbol - openCard
+function openCard(event) {
+  event.target.classList.add("open", "show");
+}
+
+// adding card to openCardsArray
+function pushToOpenCardsArray(event) {
+  openCardsArray.push(event.target);
+}
+
+
+
 
 // is cards in the openCards array matched?
-
 function isMatched() {
-  if (openCards.length > 1) {
-    if (openCards[0].children[0].classList[1] !== openCards[1].children[0].classList[1]) {
-      openCards[0].classList.remove("open", "show");
-      openCards[1].classList.remove("open", "show");
-      openCards = [];
-    } else {
-      matchedCards.push(openCards);
-      openCards = [];
+  if (openCardsArray.length === 2) {
+    if (openCardsArray[0].children[0].classList[1] !== openCardsArray[1].children[0].classList[1]) {
+      openCardsArray.forEach(unmatch);
+      openCardsArray = [];
+    } else if (openCardsArray[0].children[0].classList[1] === openCardsArray[1].children[0].classList[1]) {
+      openCardsArray.forEach(match);
+      matchedCardsArray.push(...openCardsArray);
+      openCardsArray = [];
       gameOver();
     }
   }
 }
 
+// adding unmatch class function
+function unmatch(item) {
+  item.classList.add("unmatch");
+  setTimeout(() => item.classList.remove("unmatch"), 500);
+  setTimeout(() => item.classList.remove("open", "show"), 500);
+}
+
+// adding match class function
+function match(item) {
+  item.classList.add("match");
+}
+
 //  if all cards matched run gameOver function into isMatched function
 
 function gameOver() {
-  return matchedCards.length === 8 ? console.log("Game Over") : "";
+  return matchedCardsArray.length === 16 ? console.log("Game Over") : "";
 }
 
 /*
