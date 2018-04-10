@@ -18,6 +18,8 @@ const cardsArray = [
   'fa-bomb',
 ];
 
+createTimerDiv();
+
 // Shuffling cardsArray with the function has given
 shuffle(cardsArray);
 
@@ -137,3 +139,14 @@ function restart() {
 // Selecting restart icon and adding a click event that runs restart function
 let restartButton = document.querySelector(".restart");
 restartButton.addEventListener("click", restart);
+
+// Adding a timer to the document dynamically
+function createTimerDiv() {
+  let restartButton = document.querySelector(".restart");
+  let scorePanel = document.querySelector(".score-panel");
+  let timer = document.createElement("div");
+  timer.innerHTML = "<span id='Minutes'>00</span>:<span id='seconds'>00</span>";
+  scorePanel.insertBefore(timer, restartButton);
+  timer.style.marginLeft = "150px";
+  timer.style.display = "inline-block";
+}
