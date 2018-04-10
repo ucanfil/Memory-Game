@@ -40,6 +40,7 @@ deck[0].addEventListener("click", eventListenerFunction);
 // all functions that we'd like to run if click events occurs
 function eventListenerFunction(event) {
   if (openCardsArray.length < 2 && event.target.nodeName === "LI") {
+    setInterval(setTime, 1000);
     openCard(event);
     pushToOpenCardsArray(event);
     isMatched();
@@ -145,8 +146,24 @@ function createTimerDiv() {
   let restartButton = document.querySelector(".restart");
   let scorePanel = document.querySelector(".score-panel");
   let timer = document.createElement("div");
-  timer.innerHTML = "<span id='Minutes'>00</span>:<span id='seconds'>00</span>";
+  timer.innerHTML = "<span id='minutes'>00</span>:<span id='seconds'>00</span>";
   scorePanel.insertBefore(timer, restartButton);
   timer.style.marginLeft = "150px";
   timer.style.display = "inline-block";
+}
+
+// Timer function from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript/7910506
+let minutes = document.getElementById("minutes");
+let seconds = document.getElementById("seconds");
+let totalSeconds = 0;
+
+function setTime() {
+  ++totalSeconds;
+  seconds.innerHTML = pad(totalSeconds % 60);
+  minutes.innerHTML = pad(parseInt(totalSeconds / 60));
+}
+
+function pad(val) {
+  let valString = val + "";
+  return valString.length < 2 ? "0" + valString : valString;
 }
