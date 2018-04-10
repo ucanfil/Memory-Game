@@ -18,6 +18,14 @@ const cardsArray = [
   'fa-bomb',
 ];
 
+let clicks = 0;
+let moves = 0;
+
+
+//
+let movesDisplay = document.querySelector(".moves");
+movesDisplay.textContent = 0;
+
 createTimerDiv();
 
 // Shuffling cardsArray with the function has given
@@ -28,8 +36,8 @@ const deck = document.getElementsByClassName("deck");
 const cards = deck[0].children;
 
 // setTime function binded to a click event on deck item
-const x = () => setInterval(setTime, 1000);
-deck[0].addEventListener("click", x, {once: true});
+const setTimer = () => setInterval(setTime, 1000);
+deck[0].addEventListener("click", setTimer, {once: true});
 
 for (let i = 0; i < cards.length; i++) {
   cards[i].children[0].classList.add(cardsArray[i]);
@@ -44,6 +52,9 @@ deck[0].addEventListener("click", eventListenerFunction);
 // all functions that we'd like to run if click events occurs
 function eventListenerFunction(event) {
   if (openCardsArray.length < 2 && event.target.nodeName === "LI") {
+    clicks++; // Counting clicks
+    moves = Math.floor(clicks / 2); //counting moves
+    movesDisplay.textContent = moves; //Changing moves display
     openCard(event);
     pushToOpenCardsArray(event);
     isMatched();
@@ -94,7 +105,6 @@ function match(item) {
 
 function gameOver() {
   if (matchedCardsArray.length >= 16) {
-    totalSeconds = 0;
     callModal();
   }
 }
@@ -191,7 +201,7 @@ const callModal = function (){
   h2.textContent = "Congratulations, you won the game!";
   let stars = 3;
   let moves = 8;
-  h4.textContent = `In just ${minutes.textContent} minutes, ${seconds.textContent} seconds with ${moves} moves and ${stars} stars`;
+  h4.textContent = `In just ${minutes.textContent} minutes, ${seconds.textContent} seconds with ${movesDisplay.textContent} moves and ${stars} stars`;
   playAgainButton.textContent = "Play Again?";
   modal.appendChild(h2);
   modal.appendChild(h4);
@@ -205,4 +215,3 @@ const callModal = function (){
     restart();
   });
 }
-
