@@ -27,6 +27,10 @@ shuffle(cardsArray);
 const deck = document.getElementsByClassName("deck");
 const cards = deck[0].children;
 
+// setTime function binded to a click event on deck item
+const x = () => setInterval(setTime, 1000);
+deck[0].addEventListener("click", x, {once: true});
+
 for (let i = 0; i < cards.length; i++) {
   cards[i].children[0].classList.add(cardsArray[i]);
 }
@@ -40,7 +44,6 @@ deck[0].addEventListener("click", eventListenerFunction);
 // all functions that we'd like to run if click events occurs
 function eventListenerFunction(event) {
   if (openCardsArray.length < 2 && event.target.nodeName === "LI") {
-    setInterval(setTime, 1000);
     openCard(event);
     pushToOpenCardsArray(event);
     isMatched();
@@ -132,6 +135,7 @@ function shuffle(array) {
 function restart() {
   for (let i = 0; i < cards.length; i++) {
     cards[i].classList.remove("open", "show", "match");
+    totalSeconds = 0;
   }
   // countUp timer function will get in here !!!
   shuffle(cardsArray);
