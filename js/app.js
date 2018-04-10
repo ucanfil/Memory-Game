@@ -93,7 +93,10 @@ function match(item) {
 //  if all cards matched run gameOver function into isMatched function
 
 function gameOver() {
-  return matchedCardsArray.length === 16 ? console.log("Game Over") : "";
+  if (matchedCardsArray.length >= 16) {
+    totalSeconds = 0;
+    callModal();
+  }
 }
 
 /*
@@ -132,12 +135,13 @@ function shuffle(array) {
 
 
  // Restart function
-function restart() {
+const restart = function() {
   for (let i = 0; i < cards.length; i++) {
     cards[i].classList.remove("open", "show", "match");
-    totalSeconds = 0;
   }
-  // countUp timer function will get in here !!!
+  matchedCardsArray = [];
+  openCardsArray = [];
+  totalSeconds = 0; //reseting countup timer
   shuffle(cardsArray);
 }
 
@@ -157,8 +161,8 @@ function createTimerDiv() {
 }
 
 // Timer function from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript/7910506
-let minutes = document.getElementById("minutes");
-let seconds = document.getElementById("seconds");
+const minutes = document.getElementById("minutes");
+const seconds = document.getElementById("seconds");
 let totalSeconds = 0;
 
 function setTime() {
@@ -168,6 +172,37 @@ function setTime() {
 }
 
 function pad(val) {
-  let valString = val + "";
+  const valString = val + "";
   return valString.length < 2 ? "0" + valString : valString;
 }
+
+
+// Creating a modal dynamically
+const callModal = function (){
+  const fragment = document.createDocumentFragment();
+  const modal = document.createElement("div");
+  const h2 = document.createElement("h2");
+  const h4 = document.createElement("h4");
+  const playAgainButton = document.createElement("button");
+  modal.setAttribute("id", "modal");
+  h2.setAttribute("id", "modal-h2");
+  h4.setAttribute("id", "modal-h4");
+  playAgainButton.setAttribute("id", "playAgainButton");
+  h2.textContent = "Congratulations, you won the game!";
+  let stars = 3;
+  let moves = 8;
+  h4.textContent = `In just ${minutes.textContent} minutes, ${seconds.textContent} seconds with ${moves} moves and ${stars} stars`;
+  playAgainButton.textContent = "Play Again?";
+  modal.appendChild(h2);
+  modal.appendChild(h4);
+  modal.appendChild(playAgainButton);
+  fragment.appendChild(modal);
+  document.body.appendChild(fragment);
+
+  // Modal -- playAgainButton Event Listener
+  playAgainButton.addEventListener("click", function () {
+    modal.remove();
+    restart();
+  });
+}
+
