@@ -119,3 +119,26 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+
+/*
+* Styles for modal
+*/
+
+#modal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color:  #2e3d49;
+  color: #02b3e4;
+  justify-content: center;
+  align-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+#modal > * {
+  margin: auto;
+}
