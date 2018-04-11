@@ -26,6 +26,19 @@ let moves = 0;
 let movesDisplay = document.querySelector(".moves");
 movesDisplay.textContent = 0;
 
+// Stars rating function
+const stars = document.querySelectorAll(".fa-star");
+let starsDisplay = 3;
+
+function starsRating() {
+  if (clicks % 20 === 0 && starsDisplay !== 0) {
+    stars[starsDisplay - 1].classList.remove("fa");
+    stars[starsDisplay - 1].classList.add("far");
+    starsDisplay -= 1;
+    return starsDisplay === 0 ? callModal() : "";
+  }
+}
+
 createTimerDiv();
 
 // Shuffling cardsArray with the function has given
@@ -51,10 +64,11 @@ deck[0].addEventListener("click", eventListenerFunction);
 
 // all functions that we'd like to run if click events occurs
 function eventListenerFunction(event) {
-  if (openCardsArray.length < 2 && event.target.nodeName === "LI") {
+  if ((openCardsArray.length < 2) && event.target.nodeName === "LI") {
     clicks++; // Counting clicks
     moves = Math.floor(clicks / 2); //counting moves
     movesDisplay.textContent = moves; //Changing moves display
+    starsRating();
     openCard(event);
     pushToOpenCardsArray(event);
     isMatched();
@@ -152,7 +166,20 @@ const restart = function() {
   matchedCardsArray = [];
   openCardsArray = [];
   totalSeconds = 0; //reseting countup timer
+  clicks = 0;
+  moves = 0;
+  movesDisplay.textContent = 0;
+  fillingStars();
   shuffle(cardsArray);
+}
+
+// filling up starsDisplay again
+function fillingStars() {
+  for (let i = 0; i < stars.length; i++) {
+    stars[i].classList.remove("far");
+    stars[i].classList.add("fa");
+  }
+  starsDisplay = 3;
 }
 
 // Selecting restart icon and adding a click event that runs restart function
@@ -198,10 +225,9 @@ const callModal = function (){
   h2.setAttribute("id", "modal-h2");
   h4.setAttribute("id", "modal-h4");
   playAgainButton.setAttribute("id", "playAgainButton");
-  h2.textContent = "Congratulations, you won the game!";
-  let stars = 3;
-  let moves = 8;
-  h4.textContent = `In just ${minutes.textContent} minutes, ${seconds.textContent} seconds with ${movesDisplay.textContent} moves and ${stars} stars`;
+  h2.textContent = stars.Display !== 0 && matchedCardsArray.length === 16 ? "Congratulations, you won the game!" : "You ran out of stars, you lose the game :(";
+  h4.textContent = `In ${minutes.textContent} minutes, ${seconds.textContent} seconds with ${movesDisplay.textContent}
+  moves and ${starsDisplay} stars`;
   playAgainButton.textContent = "Play Again?";
   modal.appendChild(h2);
   modal.appendChild(h4);
@@ -209,9 +235,10 @@ const callModal = function (){
   fragment.appendChild(modal);
   document.body.appendChild(fragment);
 
-  // Modal -- playAgainButton Event Listener
-  playAgainButton.addEventListener("click", function () {
-    modal.remove();
-    restart();
-  });
+
+// Modal -- playAgainButton Event Listener
+playAgainButton.addEventListener("click", function () {
+  modal.remove();
+  restart();
+});
 }
