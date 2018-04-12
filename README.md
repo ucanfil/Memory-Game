@@ -19,5 +19,8 @@
 ## Used Technologies
 
   * Pure vanilla JavaScript
-  * html5
-  * css3
+  * Html5
+  * Css3
+
+---
+> You can play the game on [here.](ucanfil.github.io/Portfolio-Site)
