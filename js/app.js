@@ -36,8 +36,8 @@ const seconds = document.getElementById("seconds");
 // Stars rating function
 function starsRating() {
   if (clicks % 20 === 0 && starsDisplay !== 0) {
-    stars[starsDisplay - 1].classList.remove("fa");
-    stars[starsDisplay - 1].classList.add("far");
+    stars[starsDisplay - 1].classList.remove("fa-star");
+    stars[starsDisplay - 1].classList.add("fa-star-o");
     starsDisplay -= 1;
     return starsDisplay === 0 ? callModal() : "";
   }
@@ -58,8 +58,9 @@ function assignCards() {
 }
 
 // setTime function binded to a click event on deck item
-const setTimer = () => setInterval(setTime, 1000);
-deck[0].addEventListener("click", setTimer, {once: true});
+deck[0].addEventListener("click", function() {
+  setInterval(setTime, 1000);
+}, {once: true});
 
 
 // Setting up decks' eventListener
@@ -67,34 +68,32 @@ deck[0].addEventListener("click", eventListenerFunction);
 
 // all functions that we'd like to run if click events occurs
 function eventListenerFunction(event) {
-  if ((openCardsArray.length < 2) && event.target.nodeName === "LI") {
+  if (openCardsArray.length < 2 && event.target.nodeName === "LI"
+   && !event.target.classList.contains("match", "unmatch")) {
     clicks++; // Counting clicks
-    moves = Math.floor(clicks / 2); //counting moves
+    moves = Math.floor(clicks / 2); //Counting moves
     movesDisplay.textContent = moves; //Changing moves display
     starsRating();
-    openCard(event);
-    pushToOpenCardsArray(event);
-    isMatched();
+    openPushCard(event);
+    isMatched(event);
   }
 }
 
-// function displays cards symbol - openCard
-function openCard(event) {
+// function displays cards symbol - adding card to openCardsArray
+function openPushCard(event) {
   event.target.classList.add("open", "show");
-}
-
-// adding card to openCardsArray
-function pushToOpenCardsArray(event) {
   openCardsArray.push(event.target);
 }
 
 // is cards in the openCards array matched?
-function isMatched() {
+function isMatched(event) {
   if (openCardsArray.length === 2) {
-    if (openCardsArray[0].children[0].classList[1] !== openCardsArray[1].children[0].classList[1]) {
+    if (openCardsArray[0].children[0].classList[1] !== openCardsArray[1].children[0].classList[1]
+      && !event.target.classList.contains("unmatch")) {
       openCardsArray.forEach(unmatch);
       openCardsArray = [];
-    } else if (openCardsArray[0].children[0].classList[1] === openCardsArray[1].children[0].classList[1]) {
+    } else if (openCardsArray[0].children[0].classList[1] === openCardsArray[1].children[0].classList[1]
+      && !event.target.classList.contains("match")) {
       openCardsArray.forEach(match);
       matchedCardsArray.push(...openCardsArray);
       openCardsArray = [];
@@ -106,8 +105,7 @@ function isMatched() {
 // adding unmatch class function
 function unmatch(item) {
   item.classList.add("unmatch");
-  setTimeout(() => item.classList.remove("unmatch"), 500);
-  setTimeout(() => item.classList.remove("open", "show"), 500);
+  setTimeout(() => item.classList.remove("unmatch", "open", "show"), 500);
 }
 
 // adding match class function
@@ -156,8 +154,8 @@ const restart = function() {
 // filling up starsDisplay again
 function fillingStars() {
   for (let i = 0; i < stars.length; i++) {
-    stars[i].classList.remove("far");
-    stars[i].classList.add("fa");
+    stars[i].classList.remove("fa-star-o");
+    stars[i].classList.add("fa-star");
   }
   starsDisplay = 3;
 }
