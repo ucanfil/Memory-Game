@@ -168,10 +168,9 @@ function createTimerDiv() {
   let restartButton = document.querySelector(".restart");
   let scorePanel = document.querySelector(".score-panel");
   let timer = document.createElement("div");
+  timer.setAttribute("id", "timer");
   timer.innerHTML = "<span id='minutes'>00</span>:<span id='seconds'>00</span>";
   scorePanel.insertBefore(timer, restartButton);
-  timer.style.marginLeft = "150px";
-  timer.style.display = "inline-block";
 }
 
 // Timer function from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript/7910506
@@ -212,4 +211,4 @@ playAgainButton.addEventListener("click", function () {
   modal.remove();
   restart();
 });
-}
+};
