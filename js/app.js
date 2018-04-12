@@ -44,17 +44,26 @@ createTimerDiv();
 // Shuffling cardsArray with the function has given
 shuffle(cardsArray);
 
-// Assigning shuffled cardsArray to its HTML
 const deck = document.getElementsByClassName("deck");
 const cards = deck[0].children;
+
+
+assignCards();
+
+
+// Assigning shuffled cardsArray to its HTML
+function assignCards() {
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].children[0].classList = "";
+    cards[i].children[0].classList.add("fa");
+    cards[i].children[0].classList.add(cardsArray[i]);
+  }
+}
 
 // setTime function binded to a click event on deck item
 const setTimer = () => setInterval(setTime, 1000);
 deck[0].addEventListener("click", setTimer, {once: true});
 
-for (let i = 0; i < cards.length; i++) {
-  cards[i].children[0].classList.add(cardsArray[i]);
-}
 
 // Setting up decks' eventListener
 let openCardsArray = [];
@@ -171,6 +180,7 @@ const restart = function() {
   movesDisplay.textContent = 0;
   fillingStars();
   shuffle(cardsArray);
+  assignCards();
 }
 
 // filling up starsDisplay again
