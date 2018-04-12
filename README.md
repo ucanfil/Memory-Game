@@ -23,4 +23,4 @@
   * Css3
 
 ---
-> You can play the game on [here.](ucanfil.github.io/Memory-Game)
+> You can play the game on [here.](https://ucanfil.github.io/Memory-Game/)
