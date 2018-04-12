@@ -17,19 +17,23 @@ const cardsArray = [
   'fa-bomb',
   'fa-bomb',
 ];
-
 let clicks = 0;
 let moves = 0;
-
-
-//
 let movesDisplay = document.querySelector(".moves");
-movesDisplay.textContent = 0;
-
-// Stars rating function
 const stars = document.querySelectorAll(".fa-star");
 let starsDisplay = 3;
+const deck = document.getElementsByClassName("deck");
+const cards = deck[0].children;
+let openCardsArray = [];
+let matchedCardsArray = [];
+let restartButton = document.querySelector(".restart");
+let totalSeconds = 0;
+movesDisplay.textContent = 0;
+createTimerDiv();
+const minutes = document.getElementById("minutes");
+const seconds = document.getElementById("seconds");
 
+// Stars rating function
 function starsRating() {
   if (clicks % 20 === 0 && starsDisplay !== 0) {
     stars[starsDisplay - 1].classList.remove("fa");
@@ -39,17 +43,10 @@ function starsRating() {
   }
 }
 
-createTimerDiv();
 
 // Shuffling cardsArray with the function has given
 shuffle(cardsArray);
-
-const deck = document.getElementsByClassName("deck");
-const cards = deck[0].children;
-
-
 assignCards();
-
 
 // Assigning shuffled cardsArray to its HTML
 function assignCards() {
@@ -66,9 +63,6 @@ deck[0].addEventListener("click", setTimer, {once: true});
 
 
 // Setting up decks' eventListener
-let openCardsArray = [];
-let matchedCardsArray = [];
-
 deck[0].addEventListener("click", eventListenerFunction);
 
 // all functions that we'd like to run if click events occurs
@@ -93,9 +87,6 @@ function openCard(event) {
 function pushToOpenCardsArray(event) {
   openCardsArray.push(event.target);
 }
-
-
-
 
 // is cards in the openCards array matched?
 function isMatched() {
@@ -125,19 +116,11 @@ function match(item) {
 }
 
 //  if all cards matched run gameOver function into isMatched function
-
 function gameOver() {
   if (matchedCardsArray.length >= 16) {
     callModal();
   }
 }
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -153,19 +136,6 @@ function shuffle(array) {
 
     return array;
 }
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
 
  // Restart function
 const restart = function() {
@@ -192,8 +162,7 @@ function fillingStars() {
   starsDisplay = 3;
 }
 
-// Selecting restart icon and adding a click event that runs restart function
-let restartButton = document.querySelector(".restart");
+// Click event that runs restart function
 restartButton.addEventListener("click", restart);
 
 // Adding a timer to the document dynamically
@@ -208,10 +177,6 @@ function createTimerDiv() {
 }
 
 // Timer function from https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript/7910506
-const minutes = document.getElementById("minutes");
-const seconds = document.getElementById("seconds");
-let totalSeconds = 0;
-
 function setTime() {
   ++totalSeconds;
   seconds.innerHTML = pad(totalSeconds % 60);
@@ -222,7 +187,6 @@ function pad(val) {
   const valString = val + "";
   return valString.length < 2 ? "0" + valString : valString;
 }
-
 
 // Creating a modal dynamically
 const callModal = function (){
@@ -244,7 +208,6 @@ const callModal = function (){
   modal.appendChild(playAgainButton);
   fragment.appendChild(modal);
   document.body.appendChild(fragment);
-
 
 // Modal -- playAgainButton Event Listener
 playAgainButton.addEventListener("click", function () {
