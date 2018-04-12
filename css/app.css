@@ -38,8 +38,8 @@ h1 {
  */
 
 .deck {
-    max-width: 660px;
-    min-height: 680px;
+    width: 660px;
+    height: 680px;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     padding: 32px;
     border-radius: 10px;
@@ -121,9 +121,18 @@ h1 {
     display: inline-block;
 }
 
+.score-panel .moves-container {
+  display: inline-block;
+}
+
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+
+#timer {
+  display: inline-block;
+  margin-left: 45%;
 }
 
 
@@ -144,6 +153,7 @@ h1 {
   top: 0;
   left: 0;
   z-index: 10;
+  padding: 5%;
 }
 
 #playAgainButton {
@@ -196,4 +206,62 @@ h1 {
   40% {transform: scaleX(0.75) scaleY(1.25);}
   60% {transform: scaleX(1.15) scaleY(0.85);}
   100% {transform: scale(1);}
+}
+
+/*
+* Media Queries
+*/
+
+@media only screen and (max-width: 376px) {
+  .deck {
+      width: 310px;
+      height: 330px;
+      margin: 0 0 1em;
+      padding: 20px;
+  }
+
+  .deck .card {
+      height: 60px;
+      width: 60px;
+      border-radius: 8px;
+      box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+  }
+
+  .score-panel {
+    text-align: left;
+    width: 300px;
+  }
+
+  .score-panel .stars {
+      display: inline-block;
+      margin: 0 5px 0 0;
+  }
+
+  .score-panel .stars li {
+      list-style: none;
+      display: inline-block;
+  }
+
+  .score-panel .restart {
+      float: right;
+      cursor: pointer;
+  }
+
+  #timer {
+    display: inline-block;
+    width: 50px;
+    margin-left: 110px;
+  }
+}
+
+@media only screen and (min-width: 376px) and (max-width: 680px) {
+  .deck {
+      width: 410px;
+      height: 425px;
+  }
+
+  .deck .card {
+      height: 75px;
+      width: 75px;
+  }
 }
