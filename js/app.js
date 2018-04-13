@@ -68,8 +68,10 @@ deck[0].addEventListener("click", eventListenerFunction);
 
 // all functions that we'd like to run if click events occurs
 function eventListenerFunction(event) {
+  openCardsArray.length === 2 ? deck[0].removeEventListener("click", eventListenerFunction)
+   : deck[0].addEventListener("click", eventListenerFunction);
   if (openCardsArray.length < 2 && event.target.nodeName === "LI"
-   && !event.target.classList.contains("match", "unmatch")) {
+   && !event.target.classList.contains("open", "show")) {
     clicks++; // Counting clicks
     moves = Math.floor(clicks / 2); //Counting moves
     movesDisplay.textContent = moves; //Changing moves display
